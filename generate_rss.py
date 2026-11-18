@@ -55,9 +55,9 @@ def fetch_votd_item(target_dt: datetime.datetime) -> dict:
         raise RuntimeError(f"Geen verstekst gevonden voor {passage_id} op {url}")
 
     return {
-        "title": f"{reference} (HSV)",
+        "title": clean_text,
         "link": url,
-        "description": clean_text,
+        "description": f"{reference} (HSV)",
         "pubDate": email.utils.format_datetime(target_dt),
         "guid": f"{target_dt.strftime('%Y-%m-%d')}-{passage_id}",
     }
