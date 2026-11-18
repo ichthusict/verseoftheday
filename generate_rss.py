@@ -18,19 +18,9 @@ req = urllib.request.Request(
 )
 with urllib.request.urlopen(req) as resp:
     votd = json.loads(resp.read().decode())
-    passage_id = votd["passage_id"]  # bijv. "ISA.12.2" of "JHN.3.16-17"
+    passage_id = votd["passage_id"]  # bijv. "ISA.40.8"
 
-# Bepaal exacte USFM verse-IDs (bijv. "JHN.3.16-17" -> {"JHN.3.16", "JHN.3.17"})
-parts = passage_id.split(".")
-book_chap = f"{parts[0]}.{parts[1]}"
-verse_part = parts[2]
-if "-" in verse_part:
-    start_v, end_v = map(int, verse_part.split("-"))
-    target_usfms = {f"{book_chap}.{v}" for v in range(start_v, end_v + 1)}
-else:
-    target_usfms = {passage_id}
-
-# 2. Haal HSV (1990) pagina op
+# 2. Haal HSV (1990) verspagina op
 url = f"https://www.bible.com/nl/bible/1990/{passage_id}.HSV"
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
@@ -42,7 +32,7 @@ with urllib.request.urlopen(html_req) as resp:
 
 soup = BeautifulSoup(html, "html.parser")
 
-# Haal Nederlandse referentie uit <title> of og:title (bijv. "Jesaja 12:2 HSV - ...")
+# Referentie uit og:title of <title> (bijv. "Jesaja 40:8 HSV")
 reference = passage_id
 og_title = soup.find("meta", property="og:title")
 if og_title and og_title.get("content"):
@@ -50,19 +40,31 @@ if og_title and og_title.get("content"):
 elif soup.title and soup.title.string:
     reference = soup.title.string.split("|")[0].split(" - ")[0].replace("HSV", "").strip()
 
-# Filter alleen de doelverzen en verwijder versnummers/voetnoten
-verses_text = []
-for el in soup.select("[data-usfm]"):
-    usfm_list = el.get("data-usfm", "").split("+")
-    if any(u in target_usfms for u in usfm_list):
-        for sup in el.select("[data-verse-number], .label, .note, .v"):
-            sup.decompose()
-        verses_text.append(el.get_text(" ", strip=True))
+# Methode A: Haal verstekst direct uit og:description / meta description
+clean_text = ""
+for meta_attr in [{"property": "og:description"}, {"name": "description"}, {"name": "twitter:description"}]:
+    tag = soup.find("meta", attrs=meta_attr)
+    if tag and tag.get("content"):
+        candidate = tag["content"].strip()
+        # Negeer generieke YouVersion-omschrijvingen
+        if candidate and "YouVersion" not in candidate and len(candidate) > 10:
+            clean_text = candidate
+            break
 
-clean_text = re.sub(r"\s+", " ", " ".join(verses_text)).strip()
+# Methode B (Fallback): Zoek in Next.js App Router RSC payload (__next_f)
+if not clean_text:
+    rsc_chunks = re.findall(r'self\.__next_f\.push\(\[1,"(.*?)"\]\)', html, re.DOTALL)
+    combined_rsc = "".join(rsc_chunks).encode("utf-8").decode("unicode_escape", errors="ignore")
+    # Zoek naar JSON-velden met "text" of "content" rondom passage_id
+    m = re.search(r'"content"\s*:\s*"([^"]{15,500})"', combined_rsc)
+    if m:
+        clean_text = re.sub(r"<[^>]+>", " ", m.group(1))
+
+clean_text = re.sub(r"\s+", " ", clean_text).strip()
 
 if not clean_text:
-    print("DEBUG HTML snippet:", html[:1000])
+    meta_dump = [str(m) for m in soup.find_all("meta")]
+    print("DEBUG META TAGS:", "\n".join(meta_dump[:15]))
     raise RuntimeError(f"Geen verstekst gevonden voor {passage_id} op {url}")
 
 # 3. Genereer RSS 2.0 XML + .nojekyll
