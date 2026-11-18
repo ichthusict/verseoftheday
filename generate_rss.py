@@ -9,14 +9,15 @@ from bs4 import BeautifulSoup
 
 APP_KEY = os.environ["YOUVERSION_APP_KEY"]
 NOW = datetime.datetime.now(datetime.timezone.utc)
-FEED_URL = "https://ichthusict.github.io/verseoftheday/feed.xml"
+BASE_URL = "https://ichthusict.github.io/verseoftheday"
+FEED_URL = f"{BASE_URL}/feed.xml"
+LOCAL_IMAGE_URL = f"{BASE_URL}/image.jpg"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
     "Accept-Language": "nl-NL,nl;q=0.9,en;q=0.8",
 }
 
 def extract_api_image(votd_json: dict) -> str:
-    # Zoek recursief naar een afbeelding-URL in de YouVersion VOTD JSON-respons
     for key in ("image_url", "image", "images", "media"):
         val = votd_json.get(key)
         if isinstance(val, str) and val.startswith("http"):
@@ -25,7 +26,6 @@ def extract_api_image(votd_json: dict) -> str:
             for sub in ("url", "large", "medium", "default", "1280x1280", "1080x1080"):
                 if isinstance(val.get(sub), str) and val[sub].startswith("http"):
                     return val[sub]
-    # Fallback regex voor eventuele geneste image-URLs in het JSON-object
     m = re.search(r'https://[^"]+\.(?:jpg|jpeg|png|webp)(?:\?[^"]*)?', json.dumps(votd_json))
     return m.group(0) if m else ""
 
@@ -70,7 +70,6 @@ def fetch_votd_item(target_dt: datetime.datetime) -> dict:
     if not clean_text:
         raise RuntimeError(f"Geen verstekst gevonden voor {passage_id} op {url}")
 
-    # Fallback afbeelding uit og:image van bible.com als de API er geen meegaf
     if not image_url:
         og_img = soup.find("meta", property="og:image")
         if og_img and og_img.get("content", "").startswith("http"):
@@ -89,6 +88,13 @@ items = [fetch_votd_item(NOW - datetime.timedelta(days=offset)) for offset in ra
 
 os.makedirs("docs", exist_ok=True)
 open("docs/.nojekyll", "w").close()
+
+# Download de afbeelding van vandaag naar docs/image.jpg
+if items[0]["image"]:
+    img_req = urllib.request.Request(items[0]["image"], headers=HEADERS)
+    with urllib.request.urlopen(img_req) as img_resp, open("docs/image.jpg", "wb") as f:
+        f.write(img_resp.read())
+    items[0]["image"] = LOCAL_IMAGE_URL
 
 ET.register_namespace("atom", "http://www.w3.org/2005/Atom")
 ET.register_namespace("media", "http://search.yahoo.com/mrss/")
@@ -115,7 +121,7 @@ for it in items:
     if it["image"]:
         ET.SubElement(item_el, "enclosure", {
             "url": it["image"],
-            "length": "0",
+            "length": str(os.path.getsize("docs/image.jpg")) if it["image"] == LOCAL_IMAGE_URL else "0",
             "type": "image/jpeg",
         })
         ET.SubElement(item_el, "{http://search.yahoo.com/mrss/}content", {
