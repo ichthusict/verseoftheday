@@ -32,26 +32,43 @@ else:
 
 # 2. Haal HSV (1990) pagina op
 url = f"https://www.bible.com/nl/bible/1990/{passage_id}.HSV"
-html_req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "Accept-Language": "nl-NL,nl;q=0.9,en;q=0.8",
+}
+html_req = urllib.request.Request(url, headers=headers)
 with urllib.request.urlopen(html_req) as resp:
-    soup = BeautifulSoup(resp.read().decode(), "html.parser")
+    html = resp.read().decode("utf-8", errors="replace")
 
-next_data = json.loads(soup.find("script", id="__NEXT_DATA__").string)
-reference = next_data["props"]["pageProps"]["reference"]["human"]
+soup = BeautifulSoup(html, "html.parser")
+
+# Haal Nederlandse referentie uit <title> of og:title (bijv. "Jesaja 12:2 HSV - ...")
+reference = passage_id
+og_title = soup.find("meta", property="og:title")
+if og_title and og_title.get("content"):
+    reference = og_title["content"].split("|")[0].split(" - ")[0].replace("HSV", "").strip()
+elif soup.title and soup.title.string:
+    reference = soup.title.string.split("|")[0].split(" - ")[0].replace("HSV", "").strip()
 
 # Filter alleen de doelverzen en verwijder versnummers/voetnoten
 verses_text = []
 for el in soup.select("[data-usfm]"):
     usfm_list = el.get("data-usfm", "").split("+")
     if any(u in target_usfms for u in usfm_list):
-        for sup in el.select("[data-verse-number], .label, .note"):
+        for sup in el.select("[data-verse-number], .label, .note, .v"):
             sup.decompose()
         verses_text.append(el.get_text(" ", strip=True))
 
 clean_text = re.sub(r"\s+", " ", " ".join(verses_text)).strip()
 
-# 3. Genereer RSS 2.0 XML
+if not clean_text:
+    print("DEBUG HTML snippet:", html[:1000])
+    raise RuntimeError(f"Geen verstekst gevonden voor {passage_id} op {url}")
+
+# 3. Genereer RSS 2.0 XML + .nojekyll
 os.makedirs("docs", exist_ok=True)
+open("docs/.nojekyll", "w").close()
+
 rss = ET.Element("rss", version="2.0")
 channel = ET.SubElement(rss, "channel")
 ET.SubElement(channel, "title").text = "YouVersion Tekst van de Dag (HSV)"
