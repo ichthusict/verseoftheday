@@ -1,32 +1,38 @@
 <?xml version='1.0' encoding='utf-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
   <channel>
     <title>YouVersion Tekst van de Dag (HSV)</title>
     <link>https://www.bible.com/nl/bible/1990/ISA.40.8.HSV</link>
     <description>Dagelijkse bijbeltekst in de Herziene Statenvertaling</description>
     <language>nl</language>
-    <lastBuildDate>Wed, 18 Nov 2026 10:55:39 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Nov 2026 11:33:02 +0000</lastBuildDate>
     <atom:link href="https://ichthusict.github.io/verseoftheday/feed.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Jesaja 40:8 (HSV)</title>
+      <title>Het gras verdort, de bloem valt af, maar het Woord van onze God bestaat voor eeuwig.</title>
       <link>https://www.bible.com/nl/bible/1990/ISA.40.8.HSV</link>
-      <description>Het gras verdort, de bloem valt af, maar het Woord van onze God bestaat voor eeuwig.</description>
-      <pubDate>Wed, 18 Nov 2026 10:55:39 +0000</pubDate>
+      <description>Jesaja 40:8 (HSV)</description>
+      <pubDate>Wed, 18 Nov 2026 11:33:02 +0000</pubDate>
       <guid isPermaLink="false">2026-11-18-ISA.40.8</guid>
+      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/113206/1280x1280.jpg" length="0" type="image/jpeg" />
+      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/113206/1280x1280.jpg" medium="image" />
     </item>
     <item>
-      <title>Mattheüs 4:4 (HSV)</title>
+      <title>Maar Hij antwoordde en zei: Er staat geschreven: De mens zal niet van brood alleen leven, maar van elk woord dat uit de mond van God komt.</title>
       <link>https://www.bible.com/nl/bible/1990/MAT.4.4.HSV</link>
-      <description>Maar Hij antwoordde en zei: Er staat geschreven: De mens zal niet van brood alleen leven, maar van elk woord dat uit de mond van God komt.</description>
-      <pubDate>Tue, 17 Nov 2026 10:55:39 +0000</pubDate>
+      <description>Mattheüs 4:4 (HSV)</description>
+      <pubDate>Tue, 17 Nov 2026 11:33:02 +0000</pubDate>
       <guid isPermaLink="false">2026-11-17-MAT.4.4</guid>
+      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/68667/1280x1280.jpg" length="0" type="image/jpeg" />
+      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/68667/1280x1280.jpg" medium="image" />
     </item>
     <item>
-      <title>Psalm 119:114 (HSV)</title>
+      <title>U bent mijn schuilplaats en mijn schild, op Uw woord heb ik gehoopt.</title>
       <link>https://www.bible.com/nl/bible/1990/PSA.119.114.HSV</link>
-      <description>U bent mijn schuilplaats en mijn schild, op Uw woord heb ik gehoopt.</description>
-      <pubDate>Mon, 16 Nov 2026 10:55:39 +0000</pubDate>
+      <description>Psalm 119:114 (HSV)</description>
+      <pubDate>Mon, 16 Nov 2026 11:33:02 +0000</pubDate>
       <guid isPermaLink="false">2026-11-16-PSA.119.114</guid>
+      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/91385/1280x1280.jpg" length="0" type="image/jpeg" />
+      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/91385/1280x1280.jpg" medium="image" />
     </item>
   </channel>
 </rss>
