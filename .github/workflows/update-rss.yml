@@ -25,9 +25,10 @@ jobs:
           YOUVERSION_APP_KEY: ${{ secrets.YOUVERSION_APP_KEY }}
         run: python generate_rss.py
 
-      - name: Commit en push feed.xml
+      - name: Commit en push feed.xml en image.jpg
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/feed.xml
+          git add docs/feed.xml docs/image.jpg
           git diff --quiet && git diff --staged --quiet || (git commit -m "Update dagtekst" && git push)
+
