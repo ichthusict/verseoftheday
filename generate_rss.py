@@ -38,7 +38,6 @@ def fetch_votd_item(target_dt: datetime.datetime) -> dict:
     elif soup.title and soup.title.string:
         reference = soup.title.string.split("|")[0].split(" - ")[0]
 
-    # Verwijder 'HSV' en lege haakjes '()'
     reference = re.sub(r"\(\s*HSV\s*\)|\bHSV\b", "", reference)
     reference = re.sub(r"\(\s*\)", "", reference).strip()
 
@@ -63,14 +62,13 @@ def fetch_votd_item(target_dt: datetime.datetime) -> dict:
         "guid": f"{target_dt.strftime('%Y-%m-%d')}-{passage_id}",
     }
 
-# Bouw lijst van de afgelopen 3 dagen op (zodat er altijd >1 <item> in de feed staat)
 items = [fetch_votd_item(NOW - datetime.timedelta(days=offset)) for offset in range(3)]
 
 os.makedirs("docs", exist_ok=True)
 open("docs/.nojekyll", "w").close()
 
 ET.register_namespace("atom", "http://www.w3.org/2005/Atom")
-rss = ET.Element("rss", {"version": "2.0", "xmlns:atom": "http://www.w3.org/2005/Atom"})
+rss = ET.Element("rss", {"version": "2.0"})
 channel = ET.SubElement(rss, "channel")
 ET.SubElement(channel, "title").text = "YouVersion Tekst van de Dag (HSV)"
 ET.SubElement(channel, "link").text = items[0]["link"]
