@@ -2,7 +2,7 @@ name: Update HSV Dagtekst RSS
 
 on:
   schedule:
-    - cron: '0 5 * * *'
+    - cron: '17 4 * * *'
   workflow_dispatch: # Handmatig starten om direct te testen
 
 permissions:
