@@ -2,10 +2,13 @@ import datetime
 import email.utils
 import json
 import os
+import random
 import re
+import textwrap
 import urllib.request
 import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
+from PIL import Image, ImageDraw, ImageFont
 
 APP_KEY = os.environ["YOUVERSION_APP_KEY"]
 NOW = datetime.datetime.now(datetime.timezone.utc)
@@ -18,7 +21,6 @@ HEADERS = {
 }
 
 def scrape_single_verse(single_usfm: str) -> tuple[str, str, str]:
-    """Retourneert (reference, verse_text, og_image_url) voor één enkel vers."""
     url = f"https://www.bible.com/nl/bible/1990/{single_usfm}.HSV"
     req = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(req) as resp:
@@ -56,6 +58,90 @@ def extract_api_image(votd_json: dict) -> str:
     m = re.search(r'https://[^"]+\.(?:jpg|jpeg|png|webp)(?:\?[^"]*)?', json.dumps(votd_json))
     return m.group(0) if m else ""
 
+def is_hsv_image(img_url: str) -> bool:
+    """Controleer of YouVersion expliciet versie 1990 (HSV) in de image-URL meestuurt."""
+    if not img_url:
+        return False
+    return bool(re.search(r'[/=_-]1990[/._-]', img_url))
+
+def generate_verse_image(verse_text: str, reference: str, output_path: str, seed_str: str):
+    """Genereert een 1080x1080 YouVersion-stijl afbeelding met exacte HSV-tekst."""
+    size = 1080
+    # Paletten geïnspireerd op YouVersion Verse-of-the-Day achtergronden (diepe, rustige tinten)
+    palettes = [
+        ((34, 56, 78), (68, 102, 128)),    # Diep leiblauw
+        ((46, 68, 62), (84, 114, 104)),   # Saliegroen / bos
+        ((74, 58, 52), (122, 98, 86)),    # Warm taupe / aarde
+        ((42, 48, 72), (82, 92, 128)),    # Nachtblauw / indigo
+        ((62, 66, 72), (108, 114, 122)),  # Zacht steengrijs
+    ]
+    rng = random.Random(seed_str)
+    top_col, bot_col = rng.choice(palettes)
+
+    img = Image.new("RGB", (size, size))
+    draw = ImageDraw.Draw(img)
+
+    # Subtiel verticaal kleurverloop
+    for y in range(size):
+        ratio = y / size
+        r = int(top_col[0] + (bot_col[0] - top_col[0]) * ratio)
+        g = int(top_col[1] + (bot_col[1] - top_col[1]) * ratio)
+        b = int(top_col[2] + (bot_col[2] - top_col[2]) * ratio)
+        draw.line([(0, y), (size, y)], fill=(r, g, b))
+
+    # Subtiele lichte rand (YouVersion-kader)
+    margin = 56
+    draw.rectangle(
+        [margin, margin, size - margin, size - margin],
+        outline=(255, 255, 255, 60),
+        width=2,
+    )
+
+    # Lettertype laden (Liberation Serif / Sans op Ubuntu runner)
+    serif_path = "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf"
+    sans_path = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
+
+    # Schaal lettergrootte automatisch op basis van tekstlengte
+    text_len = len(verse_text)
+    if text_len < 110:
+        font_size, wrap_width = 58, 28
+    elif text_len < 190:
+        font_size, wrap_width = 48, 34
+    else:
+        font_size, wrap_width = 40, 40
+
+    try:
+        verse_font = ImageFont.truetype(serif_path, font_size)
+        ref_font = ImageFont.truetype(sans_path, 30)
+    except OSError:
+        verse_font = ImageFont.load_default()
+        ref_font = ImageFont.load_default()
+
+    lines = textwrap.wrap(verse_text, width=wrap_width)
+    line_height = int(font_size * 1.38)
+    total_text_h = len(lines) * line_height
+
+    # Verticale centrering van tekst + scheidingslijn + referentie
+    block_h = total_text_h + 90
+    start_y = (size - block_h) // 2
+
+    for i, line in enumerate(lines):
+        bbox = draw.textbbox((0, 0), line, font=verse_font)
+        w = bbox[2] - bbox[0]
+        draw.text(((size - w) // 2, start_y + i * line_height), line, fill=(250, 250, 248), font=verse_font)
+
+    # Korte witte scheidingslijn
+    line_y = start_y + total_text_h + 32
+    draw.line([(size // 2 - 60, line_y), (size // 2 + 60, line_y)], fill=(230, 230, 225), width=3)
+
+    # Referentie in hoofdletters (zoals YouVersion onderaan zet)
+    ref_upper = f"{reference.upper()} (HSV)"
+    ref_bbox = draw.textbbox((0, 0), ref_upper, font=ref_font)
+    ref_w = ref_bbox[2] - ref_bbox[0]
+    draw.text(((size - ref_w) // 2, line_y + 28), ref_upper, fill=(235, 235, 230), font=ref_font)
+
+    img.save(output_path, "JPEG", quality=92)
+
 def fetch_votd_item(target_dt: datetime.datetime) -> dict:
     day_of_year = target_dt.timetuple().tm_yday
     req = urllib.request.Request(
@@ -64,7 +150,7 @@ def fetch_votd_item(target_dt: datetime.datetime) -> dict:
     )
     with urllib.request.urlopen(req) as resp:
         votd = json.loads(resp.read().decode())
-        passage_id = votd["passage_id"]  # bijv. "1TH.5.16-18" of "ISA.40.8"
+        passage_id = votd["passage_id"]
         image_url = extract_api_image(votd)
 
     parts = passage_id.split(".")
@@ -79,11 +165,11 @@ def fetch_votd_item(target_dt: datetime.datetime) -> dict:
         for idx, vid in enumerate(verse_ids):
             ref, txt, img = scrape_single_verse(vid)
             if idx == 0:
-                first_ref = ref          # bijv. "1 Thessalonicenzen 5:16"
+                first_ref = ref
                 first_img = img
             if txt:
                 texts.append(txt)
-        reference = f"{first_ref}-{end_v}"  # bijv. "1 Thessalonicenzen 5:16-18"
+        reference = f"{first_ref}-{end_v}"
         clean_text = " ".join(texts).strip()
         if not image_url:
             image_url = first_img
@@ -99,6 +185,7 @@ def fetch_votd_item(target_dt: datetime.datetime) -> dict:
         "title": clean_text,
         "link": f"https://www.bible.com/nl/bible/1990/{passage_id}.HSV",
         "description": f"{reference} (HSV)",
+        "reference_clean": reference,
         "image": image_url,
         "pubDate": email.utils.format_datetime(target_dt),
         "guid": f"{target_dt.strftime('%Y-%m-%d')}-{passage_id}",
@@ -109,18 +196,24 @@ items = [fetch_votd_item(NOW - datetime.timedelta(days=offset)) for offset in ra
 os.makedirs("docs", exist_ok=True)
 open("docs/.nojekyll", "w").close()
 
-if items[0]["image"]:
-    img_req = urllib.request.Request(items[0]["image"], headers=HEADERS)
+today = items[0]
+if is_hsv_image(today["image"]):
+    print(f"Officiële HSV-afbeelding gevonden: {today['image']}")
+    img_req = urllib.request.Request(today["image"], headers=HEADERS)
     with urllib.request.urlopen(img_req) as img_resp, open("docs/image.jpg", "wb") as f:
         f.write(img_resp.read())
-    items[0]["image"] = LOCAL_IMAGE_URL
+else:
+    print(f"Geen HSV-afbeelding (gevonden URL: {today['image']}), eigen HSV-afbeelding genereren...")
+    generate_verse_image(today["title"], today["reference_clean"], "docs/image.jpg", today["guid"])
+
+today["image"] = LOCAL_IMAGE_URL
 
 ET.register_namespace("atom", "http://www.w3.org/2005/Atom")
 ET.register_namespace("media", "http://search.yahoo.com/mrss/")
 rss = ET.Element("rss", {"version": "2.0"})
 channel = ET.SubElement(rss, "channel")
 ET.SubElement(channel, "title").text = "YouVersion Tekst van de Dag (HSV)"
-ET.SubElement(channel, "link").text = items[0]["link"]
+ET.SubElement(channel, "link").text = today["link"]
 ET.SubElement(channel, "description").text = "Dagelijkse bijbeltekst in de Herziene Statenvertaling"
 ET.SubElement(channel, "language").text = "nl"
 ET.SubElement(channel, "lastBuildDate").text = email.utils.format_datetime(NOW)
@@ -151,4 +244,4 @@ for it in items:
 tree = ET.ElementTree(rss)
 ET.indent(tree, space="  ")
 tree.write("docs/feed.xml", encoding="utf-8", xml_declaration=True)
-print(f"Gegenereerd: {items[0]['description']} - {items[0]['title']}")
+print(f"Gegenereerd: {today['description']} - {today['title']}")
