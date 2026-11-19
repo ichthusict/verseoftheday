@@ -17,37 +17,16 @@ HEADERS = {
     "Accept-Language": "nl-NL,nl;q=0.9,en;q=0.8",
 }
 
-def extract_api_image(votd_json: dict) -> str:
-    for key in ("image_url", "image", "images", "media"):
-        val = votd_json.get(key)
-        if isinstance(val, str) and val.startswith("http"):
-            return val
-        if isinstance(val, dict):
-            for sub in ("url", "large", "medium", "default", "1280x1280", "1080x1080"):
-                if isinstance(val.get(sub), str) and val[sub].startswith("http"):
-                    return val[sub]
-    m = re.search(r'https://[^"]+\.(?:jpg|jpeg|png|webp)(?:\?[^"]*)?', json.dumps(votd_json))
-    return m.group(0) if m else ""
-
-def fetch_votd_item(target_dt: datetime.datetime) -> dict:
-    day_of_year = target_dt.timetuple().tm_yday
-    req = urllib.request.Request(
-        f"https://api.youversion.com/v1/verse_of_the_days/{day_of_year}",
-        headers={"X-YVP-App-Key": APP_KEY, "User-Agent": "Mozilla/5.0"}
-    )
+def scrape_single_verse(single_usfm: str) -> tuple[str, str, str]:
+    """Retourneert (reference, verse_text, og_image_url) voor één enkel vers."""
+    url = f"https://www.bible.com/nl/bible/1990/{single_usfm}.HSV"
+    req = urllib.request.Request(url, headers=HEADERS)
     with urllib.request.urlopen(req) as resp:
-        votd = json.loads(resp.read().decode())
-        passage_id = votd["passage_id"]
-        image_url = extract_api_image(votd)
-
-    url = f"https://www.bible.com/nl/bible/1990/{passage_id}.HSV"
-    html_req = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(html_req) as resp:
         html = resp.read().decode("utf-8", errors="replace")
 
     soup = BeautifulSoup(html, "html.parser")
 
-    reference = passage_id
+    reference = single_usfm
     og_title = soup.find("meta", property="og:title")
     if og_title and og_title.get("content"):
         reference = og_title["content"].split("|")[0].split(" - ")[0]
@@ -62,22 +41,63 @@ def fetch_votd_item(target_dt: datetime.datetime) -> dict:
         tag = soup.find("meta", attrs=meta_attr)
         if tag and tag.get("content"):
             candidate = tag["content"].strip()
-            if candidate and "YouVersion" not in candidate and len(candidate) > 10:
+            if candidate and "YouVersion" not in candidate and "gemeenschap met God" not in candidate and len(candidate) > 5:
                 clean_text = candidate
                 break
 
-    clean_text = re.sub(r"\s+", " ", clean_text).strip()
-    if not clean_text:
-        raise RuntimeError(f"Geen verstekst gevonden voor {passage_id} op {url}")
+    og_img_url = ""
+    og_img = soup.find("meta", property="og:image")
+    if og_img and og_img.get("content", "").startswith("http"):
+        og_img_url = og_img["content"]
 
-    if not image_url:
-        og_img = soup.find("meta", property="og:image")
-        if og_img and og_img.get("content", "").startswith("http"):
-            image_url = og_img["content"]
+    return reference, re.sub(r"\s+", " ", clean_text).strip(), og_img_url
+
+def extract_api_image(votd_json: dict) -> str:
+    m = re.search(r'https://[^"]+\.(?:jpg|jpeg|png|webp)(?:\?[^"]*)?', json.dumps(votd_json))
+    return m.group(0) if m else ""
+
+def fetch_votd_item(target_dt: datetime.datetime) -> dict:
+    day_of_year = target_dt.timetuple().tm_yday
+    req = urllib.request.Request(
+        f"https://api.youversion.com/v1/verse_of_the_days/{day_of_year}",
+        headers={"X-YVP-App-Key": APP_KEY, "User-Agent": "Mozilla/5.0"}
+    )
+    with urllib.request.urlopen(req) as resp:
+        votd = json.loads(resp.read().decode())
+        passage_id = votd["passage_id"]  # bijv. "1TH.5.16-18" of "ISA.40.8"
+        image_url = extract_api_image(votd)
+
+    parts = passage_id.split(".")
+    book_chap = f"{parts[0]}.{parts[1]}"
+    verse_part = parts[2]
+
+    if "-" in verse_part:
+        start_v, end_v = map(int, verse_part.split("-"))
+        verse_ids = [f"{book_chap}.{v}" for v in range(start_v, end_v + 1)]
+        texts = []
+        first_ref, first_img = "", ""
+        for idx, vid in enumerate(verse_ids):
+            ref, txt, img = scrape_single_verse(vid)
+            if idx == 0:
+                first_ref = ref          # bijv. "1 Thessalonicenzen 5:16"
+                first_img = img
+            if txt:
+                texts.append(txt)
+        reference = f"{first_ref}-{end_v}"  # bijv. "1 Thessalonicenzen 5:16-18"
+        clean_text = " ".join(texts).strip()
+        if not image_url:
+            image_url = first_img
+    else:
+        reference, clean_text, og_img = scrape_single_verse(passage_id)
+        if not image_url:
+            image_url = og_img
+
+    if not clean_text:
+        raise RuntimeError(f"Geen verstekst gevonden voor {passage_id}")
 
     return {
         "title": clean_text,
-        "link": url,
+        "link": f"https://www.bible.com/nl/bible/1990/{passage_id}.HSV",
         "description": f"{reference} (HSV)",
         "image": image_url,
         "pubDate": email.utils.format_datetime(target_dt),
@@ -89,7 +109,6 @@ items = [fetch_votd_item(NOW - datetime.timedelta(days=offset)) for offset in ra
 os.makedirs("docs", exist_ok=True)
 open("docs/.nojekyll", "w").close()
 
-# Download de afbeelding van vandaag naar docs/image.jpg
 if items[0]["image"]:
     img_req = urllib.request.Request(items[0]["image"], headers=HEADERS)
     with urllib.request.urlopen(img_req) as img_resp, open("docs/image.jpg", "wb") as f:
@@ -132,4 +151,4 @@ for it in items:
 tree = ET.ElementTree(rss)
 ET.indent(tree, space="  ")
 tree.write("docs/feed.xml", encoding="utf-8", xml_declaration=True)
-print(f"Gegenereerd: {items[0]['description']} | Image: {items[0]['image']}")
+print(f"Gegenereerd: {items[0]['description']} - {items[0]['title']}")
