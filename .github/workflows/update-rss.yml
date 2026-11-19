@@ -18,6 +18,11 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Installeer dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y fonts-liberation
+          pip install beautifulsoup4 pillow
+      
       - run: pip install beautifulsoup4
 
       - name: Genereer RSS feed
