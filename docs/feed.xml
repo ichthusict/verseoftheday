@@ -2,37 +2,37 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
   <channel>
     <title>YouVersion Tekst van de Dag (HSV)</title>
-    <link>https://www.bible.com/nl/bible/1990/1TH.5.16-18.HSV</link>
+    <link>https://www.bible.com/nl/bible/1990/1CO.15.58.HSV</link>
     <description>Dagelijkse bijbeltekst in de Herziene Statenvertaling</description>
     <language>nl</language>
-    <lastBuildDate>Thu, 19 Nov 2026 07:43:27 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Nov 2026 12:52:07 +0000</lastBuildDate>
     <atom:link href="https://ichthusict.github.io/verseoftheday/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Daarom, mijn geliefde broeders, wees standvastig, onwankelbaar, altijd overvloedig in het werk van de Heere, in de wetenschap dat uw inspanning niet tevergeefs is in de Heere.</title>
+      <link>https://www.bible.com/nl/bible/1990/1CO.15.58.HSV</link>
+      <description>1 Korinthe 15:58 (HSV)</description>
+      <pubDate>Fri, 20 Nov 2026 12:52:07 +0000</pubDate>
+      <guid isPermaLink="false">2026-11-20-1CO.15.58</guid>
+      <enclosure url="https://ichthusict.github.io/verseoftheday/image.jpg" length="103680" type="image/jpeg" />
+      <media:content url="https://ichthusict.github.io/verseoftheday/image.jpg" medium="image" />
+    </item>
     <item>
       <title>Verblijd u altijd. Bid zonder ophouden. Dank God in alles. Want dit is de wil van God in Christus Jezus voor u.</title>
       <link>https://www.bible.com/nl/bible/1990/1TH.5.16-18.HSV</link>
       <description>1 Thessalonicenzen 5:16-18 (HSV)</description>
-      <pubDate>Thu, 19 Nov 2026 07:43:27 +0000</pubDate>
+      <pubDate>Thu, 19 Nov 2026 12:52:07 +0000</pubDate>
       <guid isPermaLink="false">2026-11-19-1TH.5.16-18</guid>
-      <enclosure url="https://ichthusict.github.io/verseoftheday/image.jpg" length="90940" type="image/jpeg" />
-      <media:content url="https://ichthusict.github.io/verseoftheday/image.jpg" medium="image" />
+      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/67402/1280x1280.jpg" length="0" type="image/jpeg" />
+      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/67402/1280x1280.jpg" medium="image" />
     </item>
     <item>
       <title>Het gras verdort, de bloem valt af, maar het Woord van onze God bestaat voor eeuwig.</title>
       <link>https://www.bible.com/nl/bible/1990/ISA.40.8.HSV</link>
       <description>Jesaja 40:8 (HSV)</description>
-      <pubDate>Wed, 18 Nov 2026 07:43:27 +0000</pubDate>
+      <pubDate>Wed, 18 Nov 2026 12:52:07 +0000</pubDate>
       <guid isPermaLink="false">2026-11-18-ISA.40.8</guid>
       <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/113206/1280x1280.jpg" length="0" type="image/jpeg" />
       <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/113206/1280x1280.jpg" medium="image" />
-    </item>
-    <item>
-      <title>Maar Hij antwoordde en zei: Er staat geschreven: De mens zal niet van brood alleen leven, maar van elk woord dat uit de mond van God komt.</title>
-      <link>https://www.bible.com/nl/bible/1990/MAT.4.4.HSV</link>
-      <description>Mattheüs 4:4 (HSV)</description>
-      <pubDate>Tue, 17 Nov 2026 07:43:27 +0000</pubDate>
-      <guid isPermaLink="false">2026-11-17-MAT.4.4</guid>
-      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/68667/1280x1280.jpg" length="0" type="image/jpeg" />
-      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/68667/1280x1280.jpg" medium="image" />
     </item>
   </channel>
 </rss>
