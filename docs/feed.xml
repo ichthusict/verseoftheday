@@ -2,37 +2,37 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
   <channel>
     <title>YouVersion Tekst van de Dag (HSV)</title>
-    <link>https://www.bible.com/nl/bible/1990/JHN.15.13.HSV</link>
+    <link>https://www.bible.com/nl/bible/1990/EPH.6.12.HSV</link>
     <description>Dagelijkse bijbeltekst in de Herziene Statenvertaling</description>
     <language>nl</language>
-    <lastBuildDate>Sat, 21 Nov 2026 12:37:51 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 12:33:52 +0000</lastBuildDate>
     <atom:link href="https://ichthusict.github.io/verseoftheday/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Want wij hebben de strijd niet tegen vlees en bloed, maar tegen de overheden, tegen de machten, tegen de wereldbeheersers van de duisternis van dit tijdperk, tegen de geestelijke machten van het kwaad</title>
+      <link>https://www.bible.com/nl/bible/1990/EPH.6.12.HSV</link>
+      <description>Efeze 6:12 (HSV)</description>
+      <pubDate>Sun, 22 Nov 2026 12:33:52 +0000</pubDate>
+      <guid isPermaLink="false">2026-11-22-EPH.6.12</guid>
+      <enclosure url="https://ichthusict.github.io/verseoftheday/image.jpg" length="108436" type="image/jpeg" />
+      <media:content url="https://ichthusict.github.io/verseoftheday/image.jpg" medium="image" />
+    </item>
     <item>
       <title>Niemand heeft een grotere liefde dan deze, namelijk dat iemand zijn leven geeft voor zijn vrienden.</title>
       <link>https://www.bible.com/nl/bible/1990/JHN.15.13.HSV</link>
       <description>Johannes 15:13 (HSV)</description>
-      <pubDate>Sat, 21 Nov 2026 12:37:51 +0000</pubDate>
+      <pubDate>Sat, 21 Nov 2026 12:33:52 +0000</pubDate>
       <guid isPermaLink="false">2026-11-21-JHN.15.13</guid>
-      <enclosure url="https://ichthusict.github.io/verseoftheday/image.jpg" length="96029" type="image/jpeg" />
-      <media:content url="https://ichthusict.github.io/verseoftheday/image.jpg" medium="image" />
+      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/82322/1280x1280.jpg" length="0" type="image/jpeg" />
+      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/82322/1280x1280.jpg" medium="image" />
     </item>
     <item>
       <title>Daarom, mijn geliefde broeders, wees standvastig, onwankelbaar, altijd overvloedig in het werk van de Heere, in de wetenschap dat uw inspanning niet tevergeefs is in de Heere.</title>
       <link>https://www.bible.com/nl/bible/1990/1CO.15.58.HSV</link>
       <description>1 Korinthe 15:58 (HSV)</description>
-      <pubDate>Fri, 20 Nov 2026 12:37:51 +0000</pubDate>
+      <pubDate>Fri, 20 Nov 2026 12:33:52 +0000</pubDate>
       <guid isPermaLink="false">2026-11-20-1CO.15.58</guid>
       <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/88539/1280x1280.jpg" length="0" type="image/jpeg" />
       <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/88539/1280x1280.jpg" medium="image" />
-    </item>
-    <item>
-      <title>Verblijd u altijd. Bid zonder ophouden. Dank God in alles. Want dit is de wil van God in Christus Jezus voor u.</title>
-      <link>https://www.bible.com/nl/bible/1990/1TH.5.16-18.HSV</link>
-      <description>1 Thessalonicenzen 5:16-18 (HSV)</description>
-      <pubDate>Thu, 19 Nov 2026 12:37:51 +0000</pubDate>
-      <guid isPermaLink="false">2026-11-19-1TH.5.16-18</guid>
-      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/67402/1280x1280.jpg" length="0" type="image/jpeg" />
-      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/67402/1280x1280.jpg" medium="image" />
     </item>
   </channel>
 </rss>
