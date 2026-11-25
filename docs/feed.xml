@@ -2,37 +2,37 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
   <channel>
     <title>YouVersion Tekst van de Dag (HSV)</title>
-    <link>https://www.bible.com/nl/bible/1990/JOS.1.8.HSV</link>
+    <link>https://www.bible.com/nl/bible/1990/1CO.15.57.HSV</link>
     <description>Dagelijkse bijbeltekst in de Herziene Statenvertaling</description>
     <language>nl</language>
-    <lastBuildDate>Tue, 24 Nov 2026 14:50:56 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 14:18:43 +0000</lastBuildDate>
     <atom:link href="https://ichthusict.github.io/verseoftheday/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Maar God zij dank, Die ons de overwinning geeft door onze Heere Jezus Christus.</title>
+      <link>https://www.bible.com/nl/bible/1990/1CO.15.57.HSV</link>
+      <description>1 Korinthe 15:57 (HSV)</description>
+      <pubDate>Wed, 25 Nov 2026 14:18:43 +0000</pubDate>
+      <guid isPermaLink="false">2026-11-25-1CO.15.57</guid>
+      <enclosure url="https://ichthusict.github.io/verseoftheday/image.jpg" length="81858" type="image/jpeg" />
+      <media:content url="https://ichthusict.github.io/verseoftheday/image.jpg" medium="image" />
+    </item>
     <item>
       <title>Dit boek met deze wet mag niet wijken uit uw mond, maar u moet het dag en nacht overdenken, zodat u nauwlettend zult handelen overeenkomstig alles wat daarin geschreven staat. Dan immers zult u uw weg</title>
       <link>https://www.bible.com/nl/bible/1990/JOS.1.8.HSV</link>
       <description>Jozua 1:8 (HSV)</description>
-      <pubDate>Tue, 24 Nov 2026 14:50:56 +0000</pubDate>
+      <pubDate>Tue, 24 Nov 2026 14:18:43 +0000</pubDate>
       <guid isPermaLink="false">2026-11-24-JOS.1.8</guid>
-      <enclosure url="https://ichthusict.github.io/verseoftheday/image.jpg" length="98395" type="image/jpeg" />
-      <media:content url="https://ichthusict.github.io/verseoftheday/image.jpg" medium="image" />
+      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/95654/1280x1280.jpg" length="0" type="image/jpeg" />
+      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/95654/1280x1280.jpg" medium="image" />
     </item>
     <item>
       <title>Want alles wat eertijds geschreven is, is tot onze onderwijzing eerder geschreven, opdat wij in de weg van volharding en vertroosting door de Schriften de hoop zouden behouden.</title>
       <link>https://www.bible.com/nl/bible/1990/ROM.15.4.HSV</link>
       <description>Romeinen 15:4 (HSV)</description>
-      <pubDate>Mon, 23 Nov 2026 14:50:56 +0000</pubDate>
+      <pubDate>Mon, 23 Nov 2026 14:18:43 +0000</pubDate>
       <guid isPermaLink="false">2026-11-23-ROM.15.4</guid>
       <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/67380/1280x1280.jpg" length="0" type="image/jpeg" />
       <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/67380/1280x1280.jpg" medium="image" />
-    </item>
-    <item>
-      <title>Want wij hebben de strijd niet tegen vlees en bloed, maar tegen de overheden, tegen de machten, tegen de wereldbeheersers van de duisternis van dit tijdperk, tegen de geestelijke machten van het kwaad</title>
-      <link>https://www.bible.com/nl/bible/1990/EPH.6.12.HSV</link>
-      <description>Efeze 6:12 (HSV)</description>
-      <pubDate>Sun, 22 Nov 2026 14:50:56 +0000</pubDate>
-      <guid isPermaLink="false">2026-11-22-EPH.6.12</guid>
-      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/101660/1280x1280.jpg" length="0" type="image/jpeg" />
-      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/101660/1280x1280.jpg" medium="image" />
     </item>
   </channel>
 </rss>
