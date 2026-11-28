@@ -2,37 +2,37 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
   <channel>
     <title>YouVersion Tekst van de Dag (HSV)</title>
-    <link>https://www.bible.com/nl/bible/1990/ISA.26.3.HSV</link>
+    <link>https://www.bible.com/nl/bible/1990/1JN.4.11.HSV</link>
     <description>Dagelijkse bijbeltekst in de Herziene Statenvertaling</description>
     <language>nl</language>
-    <lastBuildDate>Fri, 27 Nov 2026 13:50:19 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 Nov 2026 12:57:37 +0000</lastBuildDate>
     <atom:link href="https://ichthusict.github.io/verseoftheday/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Geliefden, als God ons zo liefhad, moeten ook wij elkaar liefhebben.</title>
+      <link>https://www.bible.com/nl/bible/1990/1JN.4.11.HSV</link>
+      <description>1 Johannes 4:11 (HSV)</description>
+      <pubDate>Sat, 28 Nov 2026 12:57:37 +0000</pubDate>
+      <guid isPermaLink="false">2026-11-28-1JN.4.11</guid>
+      <enclosure url="https://ichthusict.github.io/verseoftheday/image.jpg" length="81390" type="image/jpeg" />
+      <media:content url="https://ichthusict.github.io/verseoftheday/image.jpg" medium="image" />
+    </item>
     <item>
       <title>Het is Uw vaste voornemen: U zult volkomen vrede bewaren, want men heeft op U vertrouwd.</title>
       <link>https://www.bible.com/nl/bible/1990/ISA.26.3.HSV</link>
       <description>Jesaja 26:3 (HSV)</description>
-      <pubDate>Fri, 27 Nov 2026 13:50:19 +0000</pubDate>
+      <pubDate>Fri, 27 Nov 2026 12:57:37 +0000</pubDate>
       <guid isPermaLink="false">2026-11-27-ISA.26.3</guid>
-      <enclosure url="https://ichthusict.github.io/verseoftheday/image.jpg" length="85321" type="image/jpeg" />
-      <media:content url="https://ichthusict.github.io/verseoftheday/image.jpg" medium="image" />
+      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/85295/1280x1280.jpg" length="0" type="image/jpeg" />
+      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/85295/1280x1280.jpg" medium="image" />
     </item>
     <item>
       <title>Ga Zijn poorten binnen met een lofoffer, Zijn voorhoven met een lofzang; loof Hem, prijs Zijn Naam.</title>
       <link>https://www.bible.com/nl/bible/1990/PSA.100.4.HSV</link>
       <description>Psalm 100:4 (HSV)</description>
-      <pubDate>Thu, 26 Nov 2026 13:50:19 +0000</pubDate>
+      <pubDate>Thu, 26 Nov 2026 12:57:37 +0000</pubDate>
       <guid isPermaLink="false">2026-11-26-PSA.100.4</guid>
       <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/85287/1280x1280.jpg" length="0" type="image/jpeg" />
       <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/85287/1280x1280.jpg" medium="image" />
-    </item>
-    <item>
-      <title>Maar God zij dank, Die ons de overwinning geeft door onze Heere Jezus Christus.</title>
-      <link>https://www.bible.com/nl/bible/1990/1CO.15.57.HSV</link>
-      <description>1 Korinthe 15:57 (HSV)</description>
-      <pubDate>Wed, 25 Nov 2026 13:50:19 +0000</pubDate>
-      <guid isPermaLink="false">2026-11-25-1CO.15.57</guid>
-      <enclosure url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/107142/1280x1280.jpg" length="0" type="image/jpeg" />
-      <media:content url="https://imageproxy.youversionapi.com/1280x1280/https://s3.amazonaws.com/static-youversionapi-com/images/base/107142/1280x1280.jpg" medium="image" />
     </item>
   </channel>
 </rss>
